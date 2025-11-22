@@ -9,10 +9,10 @@ jobs:
 
     env:
       TF_API_TOKEN:          ${{ secrets.TF_API_TOKEN }}
-      SNOWFLAKE_USER:        ${{ secrets.SNOWFLAKE_USER }}
-      SNOWFLAKE_PASSWORD:    ${{ secrets.SNOWFLAKE_PASSWORD }}
-      SNOWFLAKE_ACCOUNT:     ${{ secrets.SNOWFLAKE_ACCOUNT }}
-      SNOWFLAKE_ROLE:        ${{ secrets.SNOWFLAKE_ROLE }}
+      TF_VAR_snowflake_username:   ${{ secrets.SNOWFLAKE_USER }}
+      TF_VAR_sowflake_password:    ${{ secrets.SNOWFLAKE_PASSWORD }}
+      TF_VAR_sowflake_account:     ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      TF_VAR_sowflake_role:        ${{ secrets.SNOWFLAKE_ROLE }}
 
     steps:
       - name: Checkout Code
@@ -27,8 +27,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve \
-          -var "snowflake_username=$SNOWFLAKE_USER" \
-          -var "snowflake_password=$SNOWFLAKE_PASSWORD" \
-          -var "snowflake_account=$SNOWFLAKE_ACCOUNT" \
-          -var "snowflake_role=$SNOWFLAKE_ROLE" 
+        run: terraform apply -auto-approve 
