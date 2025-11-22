@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TF_API_TOKEN:          ${{ secrets.TF_API_TOKEN }}
-      TF_VAR_snowflake_username:   ${{ secrets.SNOWFLAKE_USER }}
+      TF_VAR_TF_API_TOKEN:         ${{ secrets.TF_API_TOKEN }}
+      TF_VAR_snowflake_user:       ${{ secrets.SNOWFLAKE_USER }}
       TF_VAR_sowflake_password:    ${{ secrets.SNOWFLAKE_PASSWORD }}
       TF_VAR_sowflake_account:     ${{ secrets.SNOWFLAKE_ACCOUNT }}
       TF_VAR_sowflake_role:        ${{ secrets.SNOWFLAKE_ROLE }}
