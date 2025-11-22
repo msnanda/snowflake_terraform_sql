@@ -9,7 +9,7 @@ jobs:
 
     env:
       TF_API_TOKEN:          ${{ secrets.TF_API_TOKEN }}
-      SNOWFLAKE_USERNAME:    ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_USER:        ${{ secrets.SNOWFLAKE_USER }}
       SNOWFLAKE_PASSWORD:    ${{ secrets.SNOWFLAKE_PASSWORD }}
       SNOWFLAKE_ACCOUNT:     ${{ secrets.SNOWFLAKE_ACCOUNT }}
       SNOWFLAKE_ROLE:        ${{ secrets.SNOWFLAKE_ROLE }}
@@ -28,10 +28,7 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve \
-          -var "snowflake_username=$SNOWFLAKE_USERNAME" \
+          -var "snowflake_username=$SNOWFLAKE_USER" \
           -var "snowflake_password=$SNOWFLAKE_PASSWORD" \
           -var "snowflake_account=$SNOWFLAKE_ACCOUNT" \
-          -var "snowflake_role=$SNOWFLAKE_ROLE" \
-          -var "snowflake_warehouse=$SNOWFLAKE_WAREHOUSE" \
-          -var "snowflake_database=$SNOWFLAKE_DATABASE" \
-          -var "snowflake_schema=$SNOWFLAKE_SCHEMA"
+          -var "snowflake_role=$SNOWFLAKE_ROLE" 
