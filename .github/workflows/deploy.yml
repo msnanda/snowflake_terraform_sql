@@ -9,15 +9,10 @@ jobs:
 
     env:
       TF_API_TOKEN:          ${{ secrets.TF_API_TOKEN }}
-
-      SNOWFLAKE_USERNAME:    ${{ secrets.SNOWFLAKE_USERNAME }}
+      SNOWFLAKE_USERNAME:    ${{ secrets.SNOWFLAKE_USER }}
       SNOWFLAKE_PASSWORD:    ${{ secrets.SNOWFLAKE_PASSWORD }}
       SNOWFLAKE_ACCOUNT:     ${{ secrets.SNOWFLAKE_ACCOUNT }}
-
       SNOWFLAKE_ROLE:        ${{ secrets.SNOWFLAKE_ROLE }}
-      SNOWFLAKE_WAREHOUSE:   ${{ secrets.SNOWFLAKE_WAREHOUSE }}
-      SNOWFLAKE_DATABASE:    ${{ secrets.SNOWFLAKE_DATABASE }}
-      SNOWFLAKE_SCHEMA:      ${{ secrets.SNOWFLAKE_SCHEMA }}
 
     steps:
       - name: Checkout Code
