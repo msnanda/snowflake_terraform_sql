@@ -24,7 +24,7 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -chdir=./terraform/
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve 
+        run: terraform apply -auto-approve -chdir=./terraform/
