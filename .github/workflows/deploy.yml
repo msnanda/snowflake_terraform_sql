@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_API_TOKEN }}    
       TF_VAR_snowflake_user:       ${{ secrets.SNOWFLAKE_USER }}
       TF_VAR_snowflake_password:    ${{ secrets.SNOWFLAKE_PASSWORD }}
       TF_VAR_snowflake_account:     ${{ secrets.SNOWFLAKE_ACCOUNT }}
