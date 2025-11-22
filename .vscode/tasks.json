@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run current SQL with SnowSQL (uses PROD env vars)",
+      "type": "shell",
+      "command": "snowsql -a ${env:SNOWSQL_ACCOUNT} -u ${env:SNOWSQL_USER} -p ${env:SNOWSQL_PWD} -r ${env:SNOWSQL_ROLE} -w ${env:SNOWSQL_WAREHOUSE} -d demo_db -s demo -f \"${file}\"",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "group": "none"
+    }
+  ]
+}

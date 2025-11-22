@@ -1,0 +1,14 @@
+{
+  "snowflake.connections": [
+    {
+      "name": "demo-connection",
+      "account": "<account_identifier>",
+      "username": "<username>",
+      "role": "<role>",
+      "warehouse": "<warehouse>",
+      "database": "demo_db",
+      "schema": "demo",
+      "authenticator": "snowflake"
+    }
+  ]
+}
