@@ -18,7 +18,7 @@ jobs:
       - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
 
-      # 3. Create Snowflake default connection config
+      # 3. Configure Snowflake default connection
       - name: Configure Snowflake connection
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
