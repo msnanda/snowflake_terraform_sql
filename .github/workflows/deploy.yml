@@ -29,10 +29,10 @@ jobs:
           mkdir -p ~/.snow
           cat <<EOF > ~/.snow/config.toml
           [connections.default]
-          account = "$HO60700"
-          username = "$MSNANDA"
-          password = "$Maninder@12345"
-          role = "$ACCOUNTADMIN"
+          account = "HO60700"
+          username = "MSNANDA"
+          password = "Maninder@12345"
+          role = "ACCOUNTADMIN"
           EOF
 
       # 4. Run all SQL files in ./sqls folder
