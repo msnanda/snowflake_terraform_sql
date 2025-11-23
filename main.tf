@@ -9,18 +9,17 @@ terraform {
 
   required_providers {
     snowflake = {
-      source  = "Snowflake-Labs/snowflake"
-      version = "1.0.5"
+      source  = "SnowflakeDB/snowflake"
+      version = "1.7"
     }
   }
 }
 
-provider "snowflake" {
-  username  = var.snowflake_username
+provider "SnowflakeDB" {
+  username  = "MSNANDA"
   password  = var.snowflake_password
-  account   = var.snowflake_account
-  role      = var.snowflake_role
- 
+  account   = "HO60700"
+  role      = "ACCOUNTADMIN"
 }
 
 resource "snowflake_sql" "run_sql" {
