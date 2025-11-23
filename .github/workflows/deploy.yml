@@ -1,4 +1,4 @@
-name: Run Snowflake SQL Script
+name: Run Snowflake SQL Scripts
 
 on:
   push:
@@ -10,17 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up and Install Snowflake CLI
+      # 2. Install Snowflake CLI
+      - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
 
-      - name: Run SQL file with Snowflake CLI
+      # 3. Create Snowflake default connection config
+      - name: Configure Snowflake connection
         run: |
-          snow sql \
-            --account ${{ secrets.SNOWFLAKE_ACCOUNT }} \
-            --username ${{ secrets.SNOWFLAKE_USER }} \
-            --password ${{ secrets.SNOWFLAKE_PASSWORD }} \
-            --role ${{ secrets.SNOWFLAKE_ROLE }} \
-            -f ./sqls/salary_table.sql
+          mkdir -p ~/.snow
+          cat <<EOF > ~/.snow/config.toml
+          [connections.default]
+          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          username = "${{ secrets.SNOWFLAKE_USER }}"
+          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+          role = "${{ secrets.SNOWFLAKE_ROLE }}"
+          EOF
+
+      # 4. Run all SQL files in ./sqls folder
+      - name: Run SQL files
+        run: |
+          for sqlfile in ./sqls/*.sql; do
+            echo "Executing $sqlfile..."
+            snow sql -f "$sqlfile"
+          done
