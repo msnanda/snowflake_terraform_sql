@@ -10,17 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up and Install Snowflake CLI
-      uses: snowflakedb/snowflake-cli-action@v2.0
+      - name: Set up and Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
 
-    - name: Run SQL file with snowcli
-      run: snow sql -f ./sqls/salary_table.sql
-      env:
-        # Use SNOWFLAKE_ prefixed environment variables (ALL CAPS)
-        SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-        SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-        SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-        SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+      - name: Run SQL file with Snowflake CLI
+        run: |
+          snow sql \
+            --account ${{ secrets.SNOWFLAKE_ACCOUNT }} \
+            --user ${{ secrets.SNOWFLAKE_USER }} \
+            --password ${{ secrets.SNOWFLAKE_PASSWORD }} \
+            --role ${{ secrets.SNOWFLAKE_ROLE }} \
+            -f ./sqls/salary_table.sql
