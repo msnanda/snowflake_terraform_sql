@@ -9,8 +9,8 @@ terraform {
 
   required_providers {
     snowflake = {
-      source  = "SnowflakeDB/snowflake"
-      version = "1.7.0"
+      source  = "snowflakedb/snowflake"
+      version = "~> 0.80"
     }
   }
 }
