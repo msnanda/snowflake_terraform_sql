@@ -18,7 +18,7 @@ jobs:
       - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
 
-      # 3. Configure Snowflake default connection
+      # 3. Configure Snowflake connection using envsubst
       - name: Configure Snowflake connection
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
@@ -27,15 +27,13 @@ jobs:
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
         run: |
           mkdir -p ~/.snow
-          cat <<EOF > ~/.snow/config.toml
-[connections.default]
-account = "$SNOWFLAKE_ACCOUNT"
-username = "$SNOWFLAKE_USER"
-password = "$SNOWFLAKE_PASSWORD"
-role = "$SNOWFLAKE_ROLE"
-EOF
+          echo '[connections.default]
+account = "${SNOWFLAKE_ACCOUNT}"
+username = "${SNOWFLAKE_USER}"
+password = "${SNOWFLAKE_PASSWORD}"
+role = "${SNOWFLAKE_ROLE}"' | envsubst > ~/.snow/config.toml
 
-      # 4. Run all SQL files in ./sqls folder
+      # 4. Run all SQL files
       - name: Run SQL files
         run: |
           for sqlfile in ./sqls/*.sql; do
