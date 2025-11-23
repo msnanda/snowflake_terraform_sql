@@ -15,7 +15,7 @@ terraform {
   }
 }
 
-provider "SnowflakeDB" {
+provider "Snowflakedb" {
   username  = "MSNANDA"
   password  = var.snowflake_password
   account   = "HO60700"
