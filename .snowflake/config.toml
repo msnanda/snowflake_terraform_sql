@@ -1,0 +1,6 @@
+[connections.default]
+account = "${SNOWFLAKE_ACCOUNT}"
+username = "${SNOWFLAKE_USER}"
+password = "${SNOWFLAKE_PASSWORD}"
+role = "${SNOWFLAKE_ROLE}"
+warehouse = "${SNOWFLAKE_WAREHOUSE}"
