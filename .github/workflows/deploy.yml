@@ -20,7 +20,7 @@ jobs:
         with:
           # Map your secrets to the *internal* environment variables the action needs
           # This should now work based on the action.yml you found:
-          default-config-file-path: '.snowflake/config.toml' # Standard path
+          default-config-file-path: '.snow/config.toml' # Standard path
         env:
           # The action maps your env vars to the CONFIG_FILE_PATH variable internally
           # But the actual credentials still need to be accessible. We use ENV vars here
@@ -32,22 +32,22 @@ jobs:
 
       - name: Configure Snowflake connection file
         run: |
-          mkdir -p ~/.snowflake
+          mkdir -p ~/.snow
           # Create the config.toml file securely using secrets
-          echo "[connections.default]" > ~/.snowflake/config.toml
-          echo "account = \"${{ secrets.SNOWFLAKE_ACCOUNT }}\"" >> ~/.snowflake/config.toml
-          echo "username = \"${{ secrets.SNOWFLAKE_USER }}\"" >> ~/.snowflake/config.toml
-          echo "password = \"${{ secrets.SNOWFLAKE_PASSWORD }}\"" >> ~/.snowflake/config.toml
-          echo "role = \"${{ secrets.SNOWFLAKE_ROLE }}\"" >> ~/.snowflake/config.toml
+          echo "[connections.default]" > ~/.snow/config.toml
+          echo "account = \"${{ secrets.SNOWFLAKE_ACCOUNT }}\"" >> ~/.snow/config.toml
+          echo "username = \"${{ secrets.SNOWFLAKE_USER }}\"" >> ~/.snow/config.toml
+          echo "password = \"${{ secrets.SNOWFLAKE_PASSWORD }}\"" >> ~/.snow/config.toml
+          echo "role = \"${{ secrets.SNOWFLAKE_ROLE }}\"" >> ~/.snow/config.toml
         # Ensure secrets are available in this step's environment context via the job environment link
     
       # 4. Run all SQL files in ./sqls folder
       - name: Run SQL files
         # We explicitly set the config path in this step just in case
         env:
-            SNOWFLAKE_CONFIG_PATH: .snowflake/config.toml
+            SNOWFLAKE_CONFIG_PATH: .snow/config.toml
         run: |
-          cat .snowflake/config.toml
+          cat .snow/config.toml
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
             # The 'snow sql' command will find the config file
