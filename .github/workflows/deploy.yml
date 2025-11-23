@@ -1,8 +1,9 @@
-name: Run SQL
+name: Run Snowflake SQL Scripts
 
 on:
-  workflow_dispatch:
-
+  push:
+    branches:
+      - main
 jobs:
   run-sql:
     runs-on: ubuntu-latest
