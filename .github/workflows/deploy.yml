@@ -24,6 +24,11 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+      - name: Clean Terraform cache
+        run: |
+          rm -rf .terraform
+          rm -f .terraform.lock.hcl
+
       - name: Terraform Init
         run: terraform init 
 
