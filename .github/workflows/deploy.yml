@@ -15,15 +15,9 @@ jobs:
 
     - name: Set up and Install Snowflake CLI
       uses: snowflakedb/snowflake-cli-action@v2.0
-      with:
-        # Provide details directly here:
-        account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-        username: ${{ secrets.SNOWFLAKE_USER }}
-        password: ${{ secrets.SNOWFLAKE_PASSWORD }}
-        role: ${{ secrets.SNOWFLAKE_ROLE }}
 
     - name: Run SQL file with snowcli
-      run: snow sql -f ./sqls/salary_table.sql
+      run: snow sql run -f ./sqls/salary_table.sql
       env:
         SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
         SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
