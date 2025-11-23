@@ -1,0 +1,52 @@
+name: Run Terraform for Snowflake
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_snowflake_username:    ${{ secrets.SNOWFLAKE_USER }}
+      TF_VAR_snowflake_password:    ${{ secrets.SNOWFLAKE_PASSWORD }}
+      TF_VAR_snowflake_account:     ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      TF_VAR_snowflake_role:        ${{ secrets.SNOWFLAKE_ROLE }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Clean Terraform cache
+        run: |
+          rm -rf .terraform
+          rm -f .terraform.lock.hcl
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+      - name: Install SnowSQL
+        run: |
+          curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.3/linux_x86_64/snowsql-1.3.1-linux_x86_64.bash
+          chmod +x snowsql-1.3.1-linux_x86_64.bash
+          ./snowsql-1.3.1-linux_x86_64.bash --yes --dest $HOME/snowflake
+          echo "$HOME/snowflake/snowsql/bin" >> $GITHUB_PATH
+          snowsql -v
+
+      - name: Run Snowflake SQL Scripts
+        run: |
+          snowsql -a ${{ secrets.SNOWFLAKE_ACCOUNT }} \
+                  -u ${{ secrets.SNOWFLAKE_USER }} \
+                  -p ${{ secrets.SNOWFLAKE_PASSWORD }} \
+                  -r ${{ secrets.SNOWFLAKE_ROLE }} \
+                  -f ./sqls/salary_table.sql
