@@ -30,16 +30,6 @@ jobs:
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
 
-      - name: Configure Snowflake connection file
-        run: |
-          mkdir -p ~/.snow
-          # Create the config.toml file securely using secrets
-          echo "[connections.default]" > ~/.snow/config.toml
-          echo "account = \"${{ secrets.SNOWFLAKE_ACCOUNT }}\"" >> ~/.snow/config.toml
-          echo "username = \"${{ secrets.SNOWFLAKE_USER }}\"" >> ~/.snow/config.toml
-          echo "password = \"${{ secrets.SNOWFLAKE_PASSWORD }}\"" >> ~/.snow/config.toml
-          echo "role = \"${{ secrets.SNOWFLAKE_ROLE }}\"" >> ~/.snow/config.toml
-        # Ensure secrets are available in this step's environment context via the job environment link
     
       # 4. Run all SQL files in ./sqls folder
       - name: Run SQL files
