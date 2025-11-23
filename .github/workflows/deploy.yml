@@ -19,12 +19,12 @@ jobs:
     - name: Run SQL file with snowsql
       run: snow sql -f ./sqls/salary_table.sql
       env:
-        SNOWSQL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-        SNOWSQL_USER: ${{ secrets.SNOWFLAKE_USER }}
+        account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+        username: ${{ secrets.SNOWFLAKE_USER }}
         # Pass the password securely via environment variable
-        SNOWSQL_PWD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        password: ${{ secrets.SNOWFLAKE_PASSWORD }}
         # Optional: set default role, warehouse, db, schema
-        SNOWSQL_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+        role: ${{ secrets.SNOWFLAKE_ROLE }}
         # SNOWSQL_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
         # SNOWSQL_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
         # SNOWSQL_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
