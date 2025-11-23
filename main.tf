@@ -3,7 +3,7 @@ terraform {
     organization = "Maninder"
 
     workspaces {
-      name = "gh-actions-demo"
+      name = "snowflake-terraform-sql"
     }
   }
 
