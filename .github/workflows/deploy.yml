@@ -14,24 +14,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Install / set up the Snowflake CLI in the runner
       - name: Set up Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
-        # Optional: pin version
+        # Optional: pin a specific CLI version
         # with:
         #   cli-version: "3.11.0"
 
+      # Run all .sql files under ./sqls
       - name: Run SQL files
         env:
-          # Core connection info
+          # These must be defined as GitHub Secrets
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
-          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
-          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
-          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
           set -e
+
+          # Optional: quick check that env vars are visible to the CLI
+          snow helpers check-snowsql-env-vars || true
+
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
             snow sql -f "$sqlfile"
