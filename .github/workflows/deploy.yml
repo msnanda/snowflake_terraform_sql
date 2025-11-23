@@ -33,9 +33,9 @@ jobs:
         run: terraform init 
       - name: Install SnowSQL
         run: |
-          curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/linux_x86_64/snowsql-linux_x86_64_latest.bash
-          bash snowsql-linux_x86_64_latest.bash
-          export PATH=$HOME/snowflake/snowsql/bin:$PATH
+           curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.3/linux_x86_64/snowsql-linux_x86_64_latest.bash
+           bash snowsql-linux_x86_64_latest.bash
+           export PATH=$HOME/snowflake/snowsql/bin:$PATH
 
       - name: Terraform Apply
         run: terraform apply -auto-approve 
