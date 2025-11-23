@@ -1,0 +1,8 @@
+default_connection_name = "default"
+
+[connections.default]
+account = "HO60700"
+username = "MSNANDA"
+password = "Maninder@12345"
+role = "ACCOUNTADMIN"
+

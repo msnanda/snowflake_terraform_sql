@@ -17,6 +17,8 @@ jobs:
       # Install / set up the Snowflake CLI in the runner
       - name: Set up Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          default-config-file-path: "config.toml"
         # Optional: pin a specific CLI version
         # with:
         #   cli-version: "3.11.0"
