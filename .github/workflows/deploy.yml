@@ -47,6 +47,7 @@ jobs:
         env:
             SNOWFLAKE_CONFIG_PATH: .snowflake/config.toml
         run: |
+          cat .snowflake/config.toml
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
             # The 'snow sql' command will find the config file
