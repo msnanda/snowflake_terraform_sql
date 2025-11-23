@@ -17,7 +17,7 @@ jobs:
       uses: snowflakedb/snowflake-cli-action@v2.0
 
     - name: Run SQL file with snowcli
-      run: snow sql run -f ./sqls/salary_table.sql
+      run: snow sql -f ./sqls/salary_table.sql
       env:
         SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
         SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
