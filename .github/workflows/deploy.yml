@@ -8,35 +8,26 @@ on:
 jobs:
   run-sql:
     runs-on: ubuntu-latest
-    environment: prod
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # Install / set up the Snowflake CLI in the runner
-      - name: Set up Snowflake CLI
+      # Install Snowflake CLI + config support
+      - name: Setup Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
         with:
-          default-config-file-path: "config.toml"
-        # Optional: pin a specific CLI version
-        # with:
-        #   cli-version: "3.11.0"
+          default-config-file-path: ".snowflake/config.toml"
 
-      # Run all .sql files under ./sqls
-      - name: Run SQL files
         env:
-          # These must be defined as GitHub Secrets
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+
+      - name: Run all SQL files
         run: |
-          set -e
-
-          # Optional: quick check that env vars are visible to the CLI
-          snow helpers check-snowsql-env-vars || true
-
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
             snow sql -f "$sqlfile"
