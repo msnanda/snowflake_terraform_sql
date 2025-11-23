@@ -8,6 +8,9 @@ on:
 jobs:
   run-sql:
     runs-on: ubuntu-latest
+    # --- Add this line to link the job to the 'prod' environment ---
+    environment: prod
+    # ---------------------------------------------------------------
 
     steps:
       # 1. Checkout repository
@@ -18,8 +21,9 @@ jobs:
       - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
 
-      # 3. Configure Snowflake connection using envsubst
+      # 3. Create Snowflake default connection config
       - name: Configure Snowflake connection
+        # The 'env' block here can now successfully access the 'prod' environment secrets
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
@@ -27,16 +31,19 @@ jobs:
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
         run: |
           mkdir -p ~/.snow
-          echo '[connections.default]
-account = "${SNOWFLAKE_ACCOUNT}"
-username = "${SNOWFLAKE_USER}"
-password = "${SNOWFLAKE_PASSWORD}"
-role = "${SNOWFLAKE_ROLE}"' | envsubst > ~/.snow/config.toml
+          cat <<EOF > ~/.snow/config.toml
+          [connections.default]
+          account = "$SNOWFLAKE_ACCOUNT"
+          username = "$SNOWFLAKE_USER"
+          password = "$SNOWFLAKE_PASSWORD"
+          role = "$SNOWFLAKE_ROLE"
+          EOF
 
-      # 4. Run all SQL files
+      # 4. Run all SQL files in ./sqls folder
       - name: Run SQL files
         run: |
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
+            # The 'snow sql' command will now find the config file with real secrets
             snow sql -f "$sqlfile"
           done
