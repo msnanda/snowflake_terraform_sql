@@ -39,8 +39,8 @@ jobs:
         run: |
           curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.3/linux_x86_64/snowsql-1.3.1-linux_x86_64.bash
           chmod +x snowsql-1.3.1-linux_x86_64.bash
-          ./snowsql-1.3.1-linux_x86_64.bash --dest $HOME/snowflake
-          export PATH=$HOME/snowflake/snowsql/bin:$PATH
+          ./snowsql-1.3.1-linux_x86_64.bash --yes --dest $HOME/snowflake
+          echo "$HOME/snowflake/snowsql/bin" >> $GITHUB_PATH
           snowsql -v
 
       - name: Run Snowflake SQL Scripts
