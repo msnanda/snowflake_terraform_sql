@@ -10,17 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up and Install Snowflake CLI
-        uses: snowflakedb/snowflake-cli-action@v2.0
+    - name: Set up and Install Snowflake CLI
+      # Use the action only for installation
+      uses: snowflakedb/snowflake-cli-action@v2.0
 
-      - name: Run SQL file with Snowflake CLI
-        run: |
-          snow sql \
-            --account ${{ secrets.SNOWFLAKE_ACCOUNT }} \
-            --user ${{ secrets.SNOWFLAKE_USER }} \
-            --password ${{ secrets.SNOWFLAKE_PASSWORD }} \
-            --role ${{ secrets.SNOWFLAKE_ROLE }} \
-            -f ./sqls/salary_table.sql
+    - name: Create Snowflake config file
+      run: |
+        # Use echo to securely create a config.toml file that the CLI can read
+        echo "[connections.default]" > config.toml
+        echo "account = \"${{ secrets.SNOWFLAKE_ACCOUNT }}\"" >> config.toml
+        echo "user = \"${{ secrets.SNOWFLAKE_USER }}\"" >> config.toml
+        echo "password = \"${{ secrets.SNOWFLAKE_PASSWORD }}\"" >> config.toml
+        echo "role = \"${{ secrets.SNOWFLAKE_ROLE }}\"" >> config.toml
+        # Add other optional configs here if needed (e.g., warehouse, database)
+
+    - name: Run SQL file with snow CLI
+      # Use the correct command syntax and rely on the newly created config.toml
+      run: snow sql -f ./sqls/salary_table.sql
+      # We don't need the 'env' block here anymore, as it uses the file.
