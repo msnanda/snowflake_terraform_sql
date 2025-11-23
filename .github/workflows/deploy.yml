@@ -15,9 +15,6 @@ jobs:
 
     - name: Set up and Install Snowflake CLI
       uses: snowflakedb/snowflake-cli-action@v2.0
-      with:
-        # The action automatically sets up the config file using secrets
-        use-oidc: false 
 
     - name: Run SQL file with snowsql
       run: snowsql -f ./sqls/salary_table.sql
