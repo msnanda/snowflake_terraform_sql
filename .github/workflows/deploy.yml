@@ -28,12 +28,12 @@ jobs:
         run: |
           mkdir -p ~/.snow
           cat <<EOF > ~/.snow/config.toml
-          [connections.default]
-          account = "$SNOWFLAKE_ACCOUNT"
-          username = "$SNOWFLAKE_USER"
-          password = "$SNOWFLAKE_PASSWORD"
-          role = "$SNOWFLAKE_ROLE"
-          EOF
+[connections.default]
+account = "$SNOWFLAKE_ACCOUNT"
+username = "$SNOWFLAKE_USER"
+password = "$SNOWFLAKE_PASSWORD"
+role = "$SNOWFLAKE_ROLE"
+EOF
 
       # 4. Run all SQL files in ./sqls folder
       - name: Run SQL files
