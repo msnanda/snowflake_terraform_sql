@@ -8,35 +8,31 @@ on:
 jobs:
   run-sql:
     runs-on: ubuntu-latest
-    # Assuming 'prod' is the correct environment name
-    environment: prod 
+    environment: prod
 
     steps:
-      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Install Snowflake CLI
-      - name: Install Snowflake CLI
+      - name: Set up Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
+        # Optional: pin version
+        # with:
+        #   cli-version: "3.11.0"
 
-      # 3. Skip manual config file creation
-
-      # 4. Run all SQL files in ./sqls folder using an explicit connection string
       - name: Run SQL files
         env:
-          # Define all connection parameters in one explicit connection string
-          SNOWFLAKE_CONNECTION_STRING: ${{ secrets.SNOWFLAKE_USER }}:${{ secrets.SNOWFLAKE_PASSWORD }}@${{ secrets.SNOWFLAKE_ACCOUNT }}/?role=${{ secrets.SNOWFLAKE_ROLE }}
-          
-          # We also leave the individual env vars just in case the CLI falls back to them
+          # Core connection info
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
+          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
+          set -e
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
-            # The 'snow sql' command should pick up the env vars automatically
             snow sql -f "$sqlfile"
           done
-
