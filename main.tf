@@ -8,14 +8,8 @@ terraform {
   }
 
   required_providers {
-    # Use the official Snowflake provider package for Terraform 0.13+
     snowflake = {
-      source  = "chanzuckerberg/snowflake"
-      version = "0.25.17"
-    }
-    null = {
-      source  = "hashicorp/null"
-      version = "3.1.1"
+      source  = "Snowflake-Labs/snowflake"
     }
   }
 }
