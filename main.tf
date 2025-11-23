@@ -15,15 +15,11 @@ terraform {
   }
 }
 
-provider "snowflake" {
-  username  = var.snowflake_username
-  password  = var.snowflake_password
-  account_name   = "HO60700"
-  organization_name = "ISMAODC"
-  role      = "ACCOUNTADMIN"
+resource "null_resource" "run_sql" {
+  provisioner "local-exec" {
+    command = <<EOT
+    snowsql -a ${var.snowflake_account} -u ${var.snowflake_username} -p ${var.snowflake_password} -r ${var.snowflake_role} -f "${path.module}/sqls/salary_table.sql"
+    EOT
+  }
 }
 
-resource "snowflake_sql_statement" "run_sql" {
-  name = "run_sql_from_folder"
-  sql  = file("${path.module}/sqls/salary_table.sql")
-}
