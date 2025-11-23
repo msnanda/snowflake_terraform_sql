@@ -34,7 +34,7 @@ jobs:
         run: |
           mkdir -p ~/.snowflake
           # Create the config.toml file securely using secrets
-          echo "[connections.default]" > ~/.snow/config.toml
+          echo "[connections.default]" > ~/.snowflake/config.toml
           echo "account = \"${{ secrets.SNOWFLAKE_ACCOUNT }}\"" >> ~/.snowflake/config.toml
           echo "username = \"${{ secrets.SNOWFLAKE_USER }}\"" >> ~/.snowflake/config.toml
           echo "password = \"${{ secrets.SNOWFLAKE_PASSWORD }}\"" >> ~/.snowflake/config.toml
