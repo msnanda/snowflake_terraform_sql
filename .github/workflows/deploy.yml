@@ -8,17 +8,17 @@ on:
 jobs:
   run-sql:
     runs-on: ubuntu-latest
+    # Assuming 'prod' is the correct environment name
+    environment: prod 
 
     steps:
-      # 1. Checkout repository
+      # ... (Steps 1, 2, and 3 remain the same) ...
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Install Snowflake CLI
       - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
 
-      # 3. Configure Snowflake default connection
       - name: Configure Snowflake connection
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
@@ -27,20 +27,23 @@ jobs:
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
         run: |
           mkdir -p ~/.snow
-          cat > ~/.snow/config.toml <<EOF
-[connections.default]
-account = "${SNOWFLAKE_ACCOUNT}"
-username = "${SNOWFLAKE_USER}"
-password = "${SNOWFLAKE_PASSWORD}"
-role = "${SNOWFLAKE_ROLE}"
-EOF
+          cat <<EOF > ~/.snow/config.toml
+          [connections.default]
+          account = "$SNOWFLAKE_ACCOUNT"
+          username = "$SNOWFLAKE_USER"
+          password = "$SNOWFLAKE_PASSWORD"
+          role = "$SNOWFLAKE_ROLE"
+          EOF
 
       # 4. Run all SQL files in ./sqls folder
       - name: Run SQL files
         env:
+          # --- Set the environment variable to explicitly point to the config file ---
           SNOWFLAKE_CONFIG_PATH: ~/.snow/config.toml
+          # -------------------------------------------------------------------------
         run: |
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
+            # The 'snow sql' command will now use the specified config path
             snow sql -f "$sqlfile"
           done
