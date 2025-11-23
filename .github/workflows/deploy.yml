@@ -13,7 +13,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Snowflake CLI Action
+    - name: Set up and Install Snowflake CLI
       uses: snowflakedb/snowflake-cli-action@v2.0
       with:
         # The action automatically sets up the config file using secrets
