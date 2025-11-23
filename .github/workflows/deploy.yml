@@ -20,14 +20,19 @@ jobs:
 
       # 3. Create Snowflake default connection config
       - name: Configure Snowflake connection
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
         run: |
           mkdir -p ~/.snow
           cat <<EOF > ~/.snow/config.toml
           [connections.default]
-          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
-          username = "${{ secrets.SNOWFLAKE_USER }}"
-          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
-          role = "${{ secrets.SNOWFLAKE_ROLE }}"
+          account = "$SNOWFLAKE_ACCOUNT"
+          username = "$SNOWFLAKE_USER"
+          password = "$SNOWFLAKE_PASSWORD"
+          role = "$SNOWFLAKE_ROLE"
           EOF
 
       # 4. Run all SQL files in ./sqls folder
