@@ -39,7 +39,7 @@ jobs:
         env:
           SNOWFLAKE_CONFIG_PATH: ~/.snowflake/config.toml
         run: |
-          echo "Using config at ~/.snowflake/config.toml"
+          echo "Using this config at ~/.snowflake/config.toml"
           cat ~/.snowflake/config.toml
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
