@@ -34,14 +34,13 @@ password = "${SNOWFLAKE_PASSWORD}"
 role    = "${SNOWFLAKE_ROLE}"
 EOF
           chmod 600 ~/.snowflake/config.toml
-
+          cat ~/.snowflake/config.toml
       - name: Run SQL files
         shell: bash
         env:
           SNOWFLAKE_CONFIG_PATH: ~/.snowflake/config.toml
         run: |
-          echo "Using config at ~/.snowflake/config.toml"
-          cat ~/.snowflake/config.toml
+          echo "Using the config at ~/.snowflake/config.toml"
           
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
