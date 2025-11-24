@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE EMPLOYEE_DESIGNATION (
+CREATE OR REPLACE TABLE demo_db.demo.EMPLOYEE_DESIGNATION (
     EMP_ID        NUMBER(10)       NOT NULL,        -- Employee ID
     EMP_NAME      VARCHAR(100)     NOT NULL,        -- Employee Name
     DESIGNATION   VARCHAR(50)      NOT NULL,        -- Job Title / Designation
