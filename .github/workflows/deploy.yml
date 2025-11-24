@@ -4,17 +4,33 @@ on:
   push:
     branches:
       - main
+
 jobs:
   run-sql:
     runs-on: ubuntu-latest
+    # environment: prod # Link to 'prod' environment if secrets are scoped there
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Snow CLI
-        uses: snowflakedb/snowflake-cli-action@v1
+      # Use the 'with' inputs as defined in the action.yml file
+      - name: Setup Snowflake CLI (with configuration)
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          # Map your secrets to the *internal* environment variables the action needs
+          # This should now work based on the action.yml you found:
+          default-config-file-path: '.snow/config.toml' # Standard path
+        env:
+          # The action maps your env vars to the CONFIG_FILE_PATH variable internally
+          # But the actual credentials still need to be accessible. We use ENV vars here
+          # to ensure they are available in the shell when the script runs.
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
 
+    
       - name: Copy config.toml
         shell: bash
         run: |
@@ -24,9 +40,11 @@ jobs:
       - name: Run SQL files
         shell: bash
         run: |
-          cat .snowflake/config.toml
+          cat .snowflake/config.toml 
           cat ~/.snowflake/config.toml
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
             snow sql -f "$sqlfile"
           done
+
+          
