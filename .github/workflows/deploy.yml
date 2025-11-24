@@ -26,13 +26,11 @@ jobs:
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
         run: |
           mkdir -p ~/.snowflake
-cat > ~/.snowflake/config.toml <<EOF
-[connections.default]
-account = "${SNOWFLAKE_ACCOUNT}"
-user    = "${SNOWFLAKE_USER}"
-password = "${SNOWFLAKE_PASSWORD}"
-role    = "${SNOWFLAKE_ROLE}"
-EOF
+          echo "[connections.default]" > ~/.snowflake/config.toml
+          echo "account = \"${SNOWFLAKE_ACCOUNT}\"" >> ~/.snowflake/config.toml
+          echo "user    = \"${SNOWFLAKE_USER}\"" >> ~/.snowflake/config.toml
+          echo "password = \"${SNOWFLAKE_PASSWORD}\"" >> ~/.snowflake/config.toml
+          echo "role    = \"${SNOWFLAKE_ROLE}\"" >> ~/.snowflake/config.toml
           chmod 600 ~/.snowflake/config.toml
 
       - name: Run SQL files
