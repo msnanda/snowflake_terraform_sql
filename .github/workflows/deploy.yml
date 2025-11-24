@@ -16,7 +16,7 @@ jobs:
       - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
 
-      # 3️⃣ Configure Snowflake connection dynamically using secrets
+      # Configure Snowflake connection dynamically using secrets
       - name: Create Snowflake config from secrets
         shell: bash
         env:
@@ -26,7 +26,7 @@ jobs:
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
         run: |
           mkdir -p ~/.snowflake
-          cat > ~/.snowflake/config.toml <<EOF
+cat > ~/.snowflake/config.toml <<EOF
 [connections.default]
 account = "${SNOWFLAKE_ACCOUNT}"
 user    = "${SNOWFLAKE_USER}"
@@ -34,14 +34,14 @@ password = "${SNOWFLAKE_PASSWORD}"
 role    = "${SNOWFLAKE_ROLE}"
 EOF
           chmod 600 ~/.snowflake/config.toml
-          cat ~/.snowflake/config.toml
+
       - name: Run SQL files
         shell: bash
         env:
           SNOWFLAKE_CONFIG_PATH: ~/.snowflake/config.toml
         run: |
-          echo "Using the config at ~/.snowflake/config.toml"
-          
+          echo "Using config at ~/.snowflake/config.toml"
+          cat ~/.snowflake/config.toml
           for sqlfile in ./sqls/*.sql; do
             echo "Executing $sqlfile..."
             snow sql -f "$sqlfile"
