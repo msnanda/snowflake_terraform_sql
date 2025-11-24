@@ -42,7 +42,6 @@ role    = "${SNOWFLAKE_ROLE}"
 EOF
           chmod 600 ~/.snowflake/config.toml
 
-
       - name: Run SQL files
         shell: bash
         env:
