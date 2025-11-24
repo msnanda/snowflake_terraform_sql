@@ -16,33 +16,15 @@ jobs:
       - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
 
-      #- name: Copy config.toml to Snowflake default location
-      #  shell: bash
-      #  run: |
-      #    mkdir -p ~/.snowflake
-      #    cp .snowflake/config.toml ~/.snowflake/config.toml
-      #    chmod 600 ~/.snowflake/config.toml
-
-      # 3️⃣ Configure Snowflake connection dynamically using secrets
-      - name: Create Snowflake config from secrets
+      - name: Copy config.toml to Snowflake default location
         shell: bash
-        env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
         run: |
           mkdir -p ~/.snowflake
-          cat > ~/.snowflake/config.toml <<EOF
-[connections.default]
-account = "${SNOWFLAKE_ACCOUNT}"
-user    = "${SNOWFLAKE_USER}"
-password = "${SNOWFLAKE_PASSWORD}"
-role    = "${SNOWFLAKE_ROLE}"
-EOF
+          cp .snowflake/config.toml ~/.snowflake/config.toml
           chmod 600 ~/.snowflake/config.toml
 
-
+      # 3️⃣ Configure Snowflake connection dynamically using secrets
+ 
       - name: Run SQL files
         shell: bash
         env:
