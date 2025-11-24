@@ -24,26 +24,29 @@ jobs:
       #    chmod 600 ~/.snowflake/config.toml
 
       # 3️⃣ Configure Snowflake connection dynamically using secrets
-      - name: Create Snowflake config from secrets
+       - name: Create Snowflake config from secrets
         shell: bash
-        run: |
-          mkdir -p ~/.snowflake
-          cat <<EOF > ~/.snowflake/config.toml
-          [connections.default]
-          account = "${SNOWFLAKE_ACCOUNT}"
-          user    = "${SNOWFLAKE_USER}"
-          password = "${SNOWFLAKE_PASSWORD}"
-          role    = "${SNOWFLAKE_ROLE}"
-          EOF
-          chmod 600 ~/.snowflake/config.toml
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
-          
+        run: |
+          mkdir -p ~/.snowflake
+          # Notice no indentation before EOF, so variables expand properly
+          cat > ~/.snowflake/config.toml <<EOF
+[connections.default]
+account = "${SNOWFLAKE_ACCOUNT}"
+user    = "${SNOWFLAKE_USER}"
+password = "${SNOWFLAKE_PASSWORD}"
+role    = "${SNOWFLAKE_ROLE}"
+EOF
+          chmod 600 ~/.snowflake/config.toml
+
       - name: Run SQL files
         shell: bash
+        env:
+          SNOWFLAKE_CONFIG_PATH: ~/.snowflake/config.toml
         run: |
           echo "Using config at ~/.snowflake/config.toml"
           cat ~/.snowflake/config.toml
