@@ -1,5 +1,5 @@
 -- Create table ITEM if it doesn't already exist
-CREATE TABLE IF NOT EXISTS ITEM (
+CREATE TABLE IF NOT EXISTS demo_db.demo.ITEM (
     ITEM_ID INT AUTOINCREMENT,      -- Auto-incrementing primary key
     ITEM_NAME STRING NOT NULL,      -- Name of the item
     CATEGORY STRING,                -- Category of the item
