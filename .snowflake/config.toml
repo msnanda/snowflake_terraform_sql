@@ -1,5 +1,5 @@
 [connections.default]
-account = "HO60700"
+account = "HO60700.us-east-2.aws"
 user = "MSNANDA"
 password = "Maninder@12345"
 role = "ACCOUNTADMIN"
