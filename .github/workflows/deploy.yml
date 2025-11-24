@@ -20,10 +20,10 @@ jobs:
       - name: Create Snowflake config from secrets
         shell: bash
         env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_ACCOUNT: "HO60700.us-east-2.aws"
+          SNOWFLAKE_USER: "MSNANDA"
+          SNOWFLAKE_PASSWORD: "Maninder@12345"
+          SNOWFLAKE_ROLE: "ACCOUNTADMIN"
         run: |
           mkdir -p ~/.snowflake
           echo "[connections.default]" > ~/.snowflake/config.toml
